@@ -25,7 +25,7 @@ import java.io.FileInputStream
 import java.io.IOException
 
 
-class MainActivity2 : ComponentActivity() {
+class MainActivity : ComponentActivity() {
 
 	private val viewModel: SubsampleScreenViewModel by viewModels()
 
@@ -80,7 +80,7 @@ class MainActivity2 : ComponentActivity() {
 						selectImageClick = { mGetContent.launch("image/*") },
 						shareClick = {
 							Toast.makeText(
-								this@MainActivity2,
+								this@MainActivity,
 								"Coming soon",
 								Toast.LENGTH_SHORT
 							).show()
