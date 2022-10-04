@@ -1,0 +1,16 @@
+<resources>
+	<string name="app_name">Subsampler</string>
+	<string name="share">SHARE</string>
+	<string name="save">SAVE</string>
+	<string name="run">RUN</string>
+	<string name="size">size</string>
+	<string name="orig_size">Original size</string>
+	<string name="new_size">New size</string>
+	<string name="req_size">Required size</string>
+	<string name="select_photo">Select photo</string>
+	<string name="more">More options</string>
+	<string name="message0">Select image</string>
+	<string name="message1">Enter size and Click RUN</string>
+	<string name="title_activity_main2">MainActivity2</string>
+	<string name="saved">Saved</string>
+</resources>

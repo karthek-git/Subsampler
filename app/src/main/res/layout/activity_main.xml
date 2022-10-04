@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MainActivity">
+
+	<FrameLayout
+		android:id="@+id/image_con"
+		android:layout_width="0dp"
+		android:layout_height="240dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<ImageView
+			android:id="@+id/imageView"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="@color/colorLiiDark"
+			android:contentDescription="@string/select_photo"
+			android:onClick="select_image"
+			android:scaleType="centerInside"
+			app:srcCompat="@drawable/ic_add_photo" />
+
+		<com.google.android.material.progressindicator.CircularProgressIndicator
+			android:id="@+id/sampling_progress"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:indeterminate="true"
+			android:visibility="gone"
+			app:trackCornerRadius="4dp" />
+	</FrameLayout>
+
+	<EditText
+		android:id="@+id/size"
+		android:layout_width="0dp"
+		android:layout_height="48dp"
+		android:layout_marginStart="16dp"
+		android:layout_marginEnd="16dp"
+		android:autofillHints="@string/size"
+		android:gravity="center_vertical"
+		android:hint="@string/size"
+		android:inputType="numberDecimal"
+		android:padding="8dp"
+		android:singleLine="true"
+		android:textAllCaps="true"
+		android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+		app:layout_constraintBottom_toTopOf="@+id/run"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/orig_size" />
+
+	<Button
+		android:id="@+id/run"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:onClick="run_size"
+		android:text="@string/run"
+		app:layout_constraintBottom_toTopOf="@+id/share"
+		app:layout_constraintEnd_toEndOf="@+id/size"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toStartOf="@+id/size"
+		app:layout_constraintTop_toBottomOf="@+id/size" />
+
+	<Button
+		android:id="@+id/share"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/share"
+		app:layout_constraintBottom_toBottomOf="@+id/button3"
+		app:layout_constraintEnd_toStartOf="@+id/button3"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/button3" />
+
+	<Button
+		android:id="@+id/button3"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:onClick="save_file"
+		android:text="@string/save"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toEndOf="@+id/share"
+		app:layout_constraintTop_toBottomOf="@+id/run" />
+
+	<TextView
+		android:id="@+id/orig_size"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAllCaps="true"
+		android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+		app:layout_constraintBottom_toTopOf="@+id/size"
+		app:layout_constraintEnd_toStartOf="@+id/sampled_size"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/image_con"
+		tools:text="10mb" />
+
+	<TextView
+		android:id="@+id/sampled_size"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAllCaps="true"
+		android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+		app:layout_constraintBottom_toBottomOf="@+id/orig_size"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toEndOf="@+id/orig_size"
+		app:layout_constraintTop_toTopOf="@+id/orig_size"
+		tools:text="300kb" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
