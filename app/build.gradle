@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.mikepenz.aboutlibraries.plugin'
 }
 
 android {
@@ -8,9 +9,6 @@ android {
     buildToolsVersion '33.0.0'
 
     buildFeatures {
-        buildConfig false
-        dataBinding true
-        viewBinding true
         compose true
     }
 
@@ -70,4 +68,6 @@ dependencies {
 
     implementation "io.coil-kt:coil-compose:2.2.2"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.26.4-beta"
+
+    implementation 'com.mikepenz:aboutlibraries-core:8.9.4'
 }

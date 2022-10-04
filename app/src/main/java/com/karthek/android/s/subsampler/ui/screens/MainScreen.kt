@@ -1,5 +1,6 @@
 package com.karthek.android.s.subsampler.ui.screens
 
+import android.content.Intent
 import android.text.format.Formatter
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.karthek.android.s.subsampler.R
+import com.karthek.android.s.subsampler.SettingsActivity
 import com.karthek.android.s.subsampler.state.SubsampleScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -42,7 +44,10 @@ fun MainScreen(
 				overflow = TextOverflow.Ellipsis
 			)
 		}, actions = {
-			IconButton(onClick = { /*TODO*/ }) {
+			val context = LocalContext.current
+			IconButton(onClick = {
+				context.startActivity(Intent(context, SettingsActivity::class.java))
+			}) {
 				Icon(
 					imageVector = Icons.Outlined.MoreVert,
 					contentDescription = stringResource(id = R.string.more)
