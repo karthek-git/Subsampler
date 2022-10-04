@@ -15,7 +15,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
-import com.karthek.android.s.subsampler.state.SubsampleScreenViewModel
+import com.karthek.android.s.subsampler.state.SubSampleScreenViewModel
 import com.karthek.android.s.subsampler.ui.screens.MainScreen
 import com.karthek.android.s.subsampler.ui.theme.SubsamplerTheme
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,7 @@ import java.io.IOException
 
 class MainActivity : ComponentActivity() {
 
-	private val viewModel: SubsampleScreenViewModel by viewModels()
+	private val viewModel: SubSampleScreenViewModel by viewModels()
 
 	private var mGetContent = registerForActivityResult<String, Uri>(
 		ActivityResultContracts.GetContent()

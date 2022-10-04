@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.FileInputStream
 
-class SubsampleScreenViewModel : ViewModel() {
+class SubSampleScreenViewModel : ViewModel() {
 	var imageUri by mutableStateOf<Uri?>(null)
 	var samplingInProgress by mutableStateOf(false)
 	var showSaved by mutableStateOf(false)

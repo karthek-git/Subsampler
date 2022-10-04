@@ -26,12 +26,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.karthek.android.s.subsampler.R
 import com.karthek.android.s.subsampler.SettingsActivity
-import com.karthek.android.s.subsampler.state.SubsampleScreenViewModel
+import com.karthek.android.s.subsampler.state.SubSampleScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MainScreen(
-	viewModel: SubsampleScreenViewModel,
+	viewModel: SubSampleScreenViewModel,
 	selectImageClick: () -> Unit,
 	shareClick: () -> Unit,
 	saveClick: () -> Unit
