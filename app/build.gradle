@@ -69,4 +69,5 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
     implementation "io.coil-kt:coil-compose:2.2.2"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.26.4-beta"
 }

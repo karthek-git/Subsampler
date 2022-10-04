@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.karthek.android.s.subsampler.state.SubsampleScreenViewModel
 import com.karthek.android.s.subsampler.ui.screens.MainScreen
@@ -68,6 +69,7 @@ class MainActivity2 : ComponentActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		WindowCompat.setDecorFitsSystemWindows(window, false)
 		setContent {
 			SubsamplerTheme {
 				Surface(
