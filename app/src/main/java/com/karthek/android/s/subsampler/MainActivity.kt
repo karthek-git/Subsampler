@@ -10,12 +10,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
-import com.karthek.android.s.subsampler.state.SubSampleScreenViewModel
+import com.karthek.android.s.subsampler.state.SubsampleScreenViewModel
 import com.karthek.android.s.subsampler.ui.screens.MainScreen
 import com.karthek.android.s.subsampler.ui.theme.SubsamplerTheme
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,7 @@ import java.io.IOException
 
 class MainActivity : ComponentActivity() {
 
-	private val viewModel: SubSampleScreenViewModel by viewModels()
+	private val viewModel: SubsampleScreenViewModel by viewModels()
 
 	private var mGetContent = registerForActivityResult<String, Uri>(
 		ActivityResultContracts.GetContent()
@@ -70,30 +70,15 @@ class MainActivity : ComponentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		WindowCompat.setDecorFitsSystemWindows(window, false)
-		setContent {
-			SubsamplerTheme {
-				Surface(
-					modifier = Modifier.fillMaxSize(),
-					color = MaterialTheme.colorScheme.background
-				) {
-					MainScreen(viewModel,
-						selectImageClick = { mGetContent.launch("image/*") },
-						shareClick = {
-							Toast.makeText(
-								this@MainActivity,
-								"Coming soon",
-								Toast.LENGTH_SHORT
-							).show()
-						},
-						saveClick = {
-							mSaveContent.launch(
-								getSaveFileName(
-									viewModel.fileName,
-									viewModel.reqSize
-								)
-							)
-						}
-					)
+		setContent { ScreenContent() }
+	}
+
+	@Composable
+	fun ScreenContent() {
+		SubsamplerTheme {
+			Surface(modifier = Modifier.fillMaxSize()) {
+				MainScreen(viewModel, selectImageClick = { mGetContent.launch("image/*") }) {
+					mSaveContent.launch(getSaveFileName(viewModel.fileName, viewModel.reqSize))
 				}
 			}
 		}

@@ -1,8 +1,6 @@
 package com.karthek.android.s.subsampler
 
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
@@ -12,19 +10,21 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.text.HtmlCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.karthek.android.s.subsampler.ui.theme.SubsamplerTheme
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
 import com.mikepenz.aboutlibraries.entity.License
+import com.mikepenz.aboutlibraries.util.withContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -38,14 +38,17 @@ class LicensesActivity : ComponentActivity() {
 		WindowCompat.setDecorFitsSystemWindows(window, false)
 		lifecycleScope.launchWhenCreated {
 			libs = withContext(Dispatchers.Default) {
-				Libs(this@LicensesActivity).libraries.sorted()
+				Libs.Builder().withContext(this@LicensesActivity).build().libraries
 			}
 		}
-		setContent {
-			SubsamplerTheme {
-				Surface(color = MaterialTheme.colorScheme.background) {
-					LicensesContent()
-				}
+		setContent { ScreenContent() }
+	}
+
+	@Composable
+	fun ScreenContent() {
+		SubsamplerTheme {
+			Surface(color = MaterialTheme.colorScheme.background) {
+				LicensesContent()
 			}
 		}
 	}
@@ -53,21 +56,21 @@ class LicensesActivity : ComponentActivity() {
 	@Composable
 	fun LicensesContent() {
 		val lazyListState = rememberLazyListState()
-		var license by remember { mutableStateOf(title) }
+		var licenseName by remember { mutableStateOf(title) }
 		var nav by remember { mutableStateOf(0) }
 		var licenseText by remember { mutableStateOf("") }
 		BackHandler(nav != 0) {
 			nav = 0
-			license = title
+			licenseName = title
 		}
-		CommonScaffold(activity = this, name = license) { paddingValues ->
+		CommonScaffold(activity = this, name = licenseName) { paddingValues ->
 			if (nav == 1) {
 				LicenseViewer(paddingValues, licenseText)
 			} else {
-				LicensesMenu(lazyListState, paddingValues) {
-					license = it.licenseName
+				LicensesMenu(lazyListState, paddingValues) { license ->
+					licenseName = license.name
 					nav = 1
-					licenseText = it.licenseDescription
+					licenseText = license.licenseContent.toString()
 				}
 			}
 		}
@@ -75,20 +78,18 @@ class LicensesActivity : ComponentActivity() {
 
 	@Composable
 	fun LicensesMenu(
-		state: LazyListState,
-		paddingValues: PaddingValues,
-		callback: (License) -> Unit
+		state: LazyListState, paddingValues: PaddingValues, callback: (License) -> Unit
 	) {
 		if (libs != null) {
 			LazyColumn(state = state, contentPadding = paddingValues) {
 				items(libs!!) {
 					Column(modifier = Modifier
 						.clickable {
-							it.licenses?.let { it1 -> callback(it1.first()) }
+							callback(it.licenses.first())
 						}
 						.padding(start = 16.dp)) {
 						Text(
-							text = it.libraryName, modifier = Modifier
+							text = it.name, modifier = Modifier
 								.fillMaxWidth()
 								.padding(24.dp)
 						)
@@ -102,25 +103,20 @@ class LicensesActivity : ComponentActivity() {
 					.padding(paddingValues)
 					.fillMaxSize()
 					.size(64.dp)
-					.wrapContentSize(Alignment.Center),
-				strokeWidth = 4.dp
+					.wrapContentSize(Alignment.Center), strokeWidth = 4.dp
 			)
 		}
 	}
 
 	@Composable
 	fun LicenseViewer(paddingValues: PaddingValues, text: String) {
-		val htmlDesc = remember { HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_COMPACT) }
-		AndroidView(factory = {
-			TextView(it).apply {
-				movementMethod = LinkMovementMethod.getInstance()
-			}
-		}, update = {
-			it.text = htmlDesc
-		},
+		Text(
+			text = text,
+			fontWeight = FontWeight.Light,
 			modifier = Modifier
 				.padding(paddingValues)
-				.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+				.padding(horizontal = 16.dp)
+				.verticalScroll(rememberScrollState())
 		)
 	}
 

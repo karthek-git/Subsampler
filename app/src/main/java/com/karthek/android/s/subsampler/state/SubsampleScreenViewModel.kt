@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.FileInputStream
 
-class SubSampleScreenViewModel : ViewModel() {
+class SubsampleScreenViewModel : ViewModel() {
 	var imageUri by mutableStateOf<Uri?>(null)
 	var samplingInProgress by mutableStateOf(false)
 	var showSaved by mutableStateOf(false)
@@ -24,15 +24,13 @@ class SubSampleScreenViewModel : ViewModel() {
 	var gotSize by mutableStateOf(0L)
 	val outputStream by lazy { ByteArrayOutputStream() }
 
-
-	var textFieldValue by mutableStateOf("")
-	var isError by mutableStateOf(false)
-
 	fun runForSize() {
 		viewModelScope.launch {
 			samplingInProgress = true
 			gotSize = withContext(Dispatchers.Default) {
-				inputStream?.let { subSample(origSize, reqSize * 1024, it, outputStream) } ?: 0
+				inputStream?.let {
+					subSample(origSize, reqSize * 1024, it, outputStream)
+				} ?: 0
 			}
 			samplingInProgress = false
 			showSaved = true

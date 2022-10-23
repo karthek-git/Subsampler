@@ -12,10 +12,15 @@ import androidx.compose.material.icons.outlined.AddAPhoto
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -26,35 +31,39 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.karthek.android.s.subsampler.R
 import com.karthek.android.s.subsampler.SettingsActivity
-import com.karthek.android.s.subsampler.state.SubSampleScreenViewModel
+import com.karthek.android.s.subsampler.state.SubsampleScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MainScreen(
-	viewModel: SubSampleScreenViewModel,
+	viewModel: SubsampleScreenViewModel,
 	selectImageClick: () -> Unit,
-	shareClick: () -> Unit,
 	saveClick: () -> Unit
 ) {
+	val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 	Scaffold(topBar = {
-		TopAppBar(title = {
-			Text(
-				text = stringResource(id = R.string.app_name),
-				maxLines = 1,
-				overflow = TextOverflow.Ellipsis
-			)
-		}, actions = {
-			val context = LocalContext.current
-			IconButton(onClick = {
-				context.startActivity(Intent(context, SettingsActivity::class.java))
-			}) {
-				Icon(
-					imageVector = Icons.Outlined.MoreVert,
-					contentDescription = stringResource(id = R.string.more)
+		TopAppBar(
+			title = {
+				Text(
+					text = stringResource(id = R.string.app_name),
+					maxLines = 1,
+					overflow = TextOverflow.Ellipsis
 				)
-			}
-		})
-	}) { innerPadding ->
+			},
+			actions = {
+				val context = LocalContext.current
+				IconButton(onClick = {
+					context.startActivity(Intent(context, SettingsActivity::class.java))
+				}) {
+					Icon(
+						imageVector = Icons.Outlined.MoreVert,
+						contentDescription = stringResource(id = R.string.more)
+					)
+				}
+			},
+			scrollBehavior = scrollBehavior
+		)
+	}, modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)) { innerPadding ->
 		Column(
 			modifier = Modifier
 				.padding(innerPadding)
@@ -116,7 +125,8 @@ fun MainScreen(
 					} else {
 						stringResource(id = R.string.message1)
 					},
-					color = if (viewModel.showSaved) Color.Unspecified else Color.Blue,
+					color = if (viewModel.showSaved) Color.Unspecified
+					else MaterialTheme.colorScheme.primary,
 					textAlign = TextAlign.Center,
 					modifier = Modifier
 						.fillMaxWidth()
@@ -124,19 +134,19 @@ fun MainScreen(
 				)
 
 				val keyboardController = LocalSoftwareKeyboardController.current
+				var textFieldValue by rememberSaveable { mutableStateOf("") }
+				var isError by rememberSaveable { mutableStateOf(false) }
 
 				OutlinedTextField(
-					value = viewModel.textFieldValue,
+					value = textFieldValue,
 					onValueChange = { e_s ->
-						with(viewModel) {
-							textFieldValue = e_s
-							val parsedValue = textFieldValue.toLongOrNull()
-							isError = ((parsedValue == null) || (parsedValue <= 0L))
-							if (!isError && parsedValue != null) {
-								reqSize = parsedValue
-							}
+						textFieldValue = e_s
+						val parsedValue = textFieldValue.toLongOrNull()
+						isError = ((parsedValue == null) || (parsedValue <= 0L))
+						if (!isError && parsedValue != null) {
+							viewModel.reqSize = parsedValue
 						}
-					}, isError = viewModel.isError,
+					}, isError = isError,
 					label = { Text(text = stringResource(id = R.string.req_size)) },
 					singleLine = true,
 					keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -147,7 +157,9 @@ fun MainScreen(
 						.align(Alignment.CenterHorizontally)
 				)
 				Button(
-					enabled = (!(viewModel.isError) && (viewModel.textFieldValue.isNotEmpty())),
+					enabled = (!(isError)
+							&& (textFieldValue.isNotEmpty())
+							&& (!viewModel.samplingInProgress)),
 					onClick = { viewModel.runForSize() },
 					modifier = Modifier
 						.padding(16.dp)
@@ -155,16 +167,15 @@ fun MainScreen(
 				) {
 					Text(text = stringResource(id = R.string.run))
 				}
-				Row(
-					horizontalArrangement = Arrangement.SpaceEvenly,
-					modifier = Modifier.fillMaxWidth()
+
+				Button(
+					enabled = viewModel.showSaved,
+					onClick = saveClick,
+					modifier = Modifier
+						.fillMaxWidth()
+						.padding(16.dp)
 				) {
-					Button(enabled = viewModel.showSaved, onClick = shareClick) {
-						Text(text = stringResource(id = R.string.share))
-					}
-					Button(enabled = viewModel.showSaved, onClick = saveClick) {
-						Text(text = stringResource(id = R.string.save))
-					}
+					Text(text = stringResource(id = R.string.save))
 				}
 			}
 		}
