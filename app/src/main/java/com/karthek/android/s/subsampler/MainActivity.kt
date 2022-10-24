@@ -7,7 +7,9 @@ import android.provider.OpenableColumns
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -29,9 +31,7 @@ class MainActivity : ComponentActivity() {
 
 	private val viewModel: SubsampleScreenViewModel by viewModels()
 
-	private var mGetContent = registerForActivityResult<String, Uri>(
-		ActivityResultContracts.GetContent()
-	) { uri: Uri? ->
+	private var mGetContent = registerForActivityResult(PickVisualMedia()) { uri: Uri? ->
 		if (uri == null) return@registerForActivityResult
 		viewModel.imageUri = uri
 		val cursor: Cursor =
@@ -77,7 +77,9 @@ class MainActivity : ComponentActivity() {
 	fun ScreenContent() {
 		SubsamplerTheme {
 			Surface(modifier = Modifier.fillMaxSize()) {
-				MainScreen(viewModel, selectImageClick = { mGetContent.launch("image/*") }) {
+				MainScreen(viewModel, selectImageClick = {
+					mGetContent.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+				}) {
 					mSaveContent.launch(getSaveFileName(viewModel.fileName, viewModel.reqSize))
 				}
 			}
