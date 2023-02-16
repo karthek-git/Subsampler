@@ -13,7 +13,7 @@ suspend fun subSample(
 	origSize: Long,
 	reqSize: Long,
 	inputStream: FileInputStream,
-	outputStream: ByteArrayOutputStream
+	outputStream: ByteArrayOutputStream,
 ): Long {
 	var gotSize = origSize
 	try {
@@ -35,10 +35,7 @@ suspend fun subSample(
 }
 
 fun getSaveFileName(fileName: String?, reqSize: Long): String? {
-	var name: String? = null
-	if (fileName != null) {
-		val i: Int = fileName.lastIndexOf('.')
-		name = fileName.substring(0, i) + "-" + reqSize / 1024 + ".jpg"
+	return fileName?.let {
+		"${fileName.substring(0, fileName.lastIndexOf('.'))}-$reqSize.jpg"
 	}
-	return name
 }
