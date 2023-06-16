@@ -17,6 +17,7 @@ import java.io.FileInputStream
 
 class SubsampleScreenViewModel(appContext: Application) : AndroidViewModel(appContext) {
 	var imageUri by mutableStateOf<Uri?>(null)
+	var textFieldValue by mutableStateOf("")
 	var samplingInProgress by mutableStateOf(false)
 	var showSaved by mutableStateOf(false)
 	var inputStream: FileInputStream? = null

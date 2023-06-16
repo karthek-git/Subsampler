@@ -77,11 +77,15 @@ class MainActivity : ComponentActivity() {
 	fun ScreenContent() {
 		SubsamplerTheme {
 			Surface(modifier = Modifier.fillMaxSize()) {
-				MainScreen(viewModel, selectImageClick = {
-					mGetContent.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
-				}) {
-					mSaveContent.launch(getSaveFileName(viewModel.fileName, viewModel.reqSize))
-				}
+				MainScreen(
+					viewModel = viewModel,
+					selectImageClick = {
+						mGetContent.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+					},
+					saveClick = {
+						mSaveContent.launch(getSaveFileName(viewModel.fileName, viewModel.reqSize))
+					}
+				)
 			}
 		}
 	}
