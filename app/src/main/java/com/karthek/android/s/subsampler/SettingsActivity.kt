@@ -48,25 +48,24 @@ class SettingsActivity : ComponentActivity() {
 		startActivity(Intent(this, LicensesActivity::class.java))
 	}
 
-	@OptIn(ExperimentalMaterial3Api::class)
 	@Composable
 	fun SettingsScreen(version: String) {
 		CommonScaffold(activity = this, name = "About") { paddingValues ->
 			Column(modifier = Modifier.padding(paddingValues)) {
 				ListItem(
-					headlineText = { Text(text = "Version") },
-					supportingText = { Text(text = version, fontWeight = FontWeight.Light) }
+					headlineContent = { Text(text = "Version") },
+					supportingContent = { Text(text = version, fontWeight = FontWeight.Light) }
 				)
 				Divider()
 				ListItem(
-					headlineText = { Text(text = "Privacy Policy") },
+					headlineContent = { Text(text = "Privacy Policy") },
 					modifier = Modifier.clickable {
 						val uri =
 							Uri.parse("https://policies.karthek.com/Subsampler/-/blob/master/privacy.md")
 						startActivity(Intent(Intent.ACTION_VIEW, uri))
 					})
 				Divider()
-				ListItem(headlineText = { Text(text = "Open source licenses") },
+				ListItem(headlineContent = { Text(text = "Open source licenses") },
 					modifier = Modifier.clickable { startLicensesActivity() }
 				)
 			}
