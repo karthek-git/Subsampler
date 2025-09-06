@@ -34,8 +34,8 @@ suspend fun subSample(
 	return gotSize
 }
 
-fun getSaveFileName(fileName: String?, reqSize: Long): String? {
+fun getSaveFileName(fileName: String?, reqSize: Long): String {
 	return fileName?.let {
 		"${fileName.substring(0, fileName.lastIndexOf('.'))}-$reqSize.jpg"
-	}
+	} ?: "image.jpg"
 }

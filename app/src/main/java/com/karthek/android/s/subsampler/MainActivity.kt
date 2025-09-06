@@ -7,6 +7,7 @@ import android.provider.OpenableColumns
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
@@ -15,11 +16,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.karthek.android.s.subsampler.state.SubsampleScreenViewModel
 import com.karthek.android.s.subsampler.ui.screens.MainScreen
-import com.karthek.android.s.subsampler.ui.theme.SubsamplerTheme
+import com.karthek.android.s.subsampler.ui.theme.AppTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
 		}
 	}
 
-	private var mSaveContent = registerForActivityResult<String, Uri>(
+	private var mSaveContent = registerForActivityResult(
 		ActivityResultContracts.CreateDocument("image/jpeg")
 	) { result: Uri? ->
 		if (result == null) return@registerForActivityResult
@@ -69,13 +69,13 @@ class MainActivity : ComponentActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		WindowCompat.setDecorFitsSystemWindows(window, false)
+		enableEdgeToEdge()
 		setContent { ScreenContent() }
 	}
 
 	@Composable
 	fun ScreenContent() {
-		SubsamplerTheme {
+		AppTheme {
 			Surface(modifier = Modifier.fillMaxSize()) {
 				MainScreen(
 					viewModel = viewModel,

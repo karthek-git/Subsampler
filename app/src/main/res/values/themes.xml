@@ -1,7 +1,0 @@
-<resources>
-	<style name="Theme.SubSampler" parent="android:Theme.Material.Light.NoActionBar">
-		<item name="android:colorPrimary">@color/blue_600</item>
-		<item name="android:windowBackground">@android:color/white</item>
-		<item name="android:windowActivityTransitions">true</item>
-	</style>
-</resources>

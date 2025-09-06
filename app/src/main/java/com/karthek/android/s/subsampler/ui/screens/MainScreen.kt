@@ -2,7 +2,15 @@ package com.karthek.android.s.subsampler.ui.screens
 
 import android.content.Intent
 import android.text.format.Formatter
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,7 +18,19 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AddAPhoto
 import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,9 +60,9 @@ fun MainScreen(
 	selectImageClick: () -> Unit,
 	saveClick: () -> Unit,
 ) {
-	val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+	val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 	Scaffold(topBar = {
-		TopAppBar(title = {
+		LargeTopAppBar(title = {
 			Text(
 				text = stringResource(id = R.string.app_name),
 				maxLines = 1,
@@ -65,6 +85,7 @@ fun MainScreen(
 			modifier = Modifier
 				.padding(innerPadding)
 				.padding(8.dp)
+				.fillMaxHeight()
 				.imePadding()
 				.verticalScroll(rememberScrollState())
 		) {
