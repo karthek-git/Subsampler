@@ -2,16 +2,17 @@
 	<string name="app_name">Subsampler</string>
 	<string name="go_back">Go back</string>
 	<string name="save">SAVE</string>
-	<string name="run">RUN</string>
+	<string name="run">COMPRESS</string>
 	<string name="size">size</string>
 	<string name="orig_size">Original size</string>
-	<string name="new_size">New size</string>
-	<string name="req_size">Required size</string>
+	<string name="new_size">Compressed size</string>
+	<string name="req_size">Required size (KB)</string>
 	<string name="select_photo">Select photo</string>
 	<string name="more">More options</string>
 	<string name="message0">Select image</string>
-	<string name="message1">Enter size and Click RUN</string>
+	<string name="message1">Enter required size and Click Compress</string>
 	<string name="title_activity_settings">SettingsActivity</string>
 	<string name="title_activity_licenses">LicensesActivity</string>
 	<string name="saved">Saved</string>
+	<string name="req_size_place_holder">500</string>
 </resources>
